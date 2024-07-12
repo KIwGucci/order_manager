@@ -4,7 +4,7 @@ use chrono::{Duration, NaiveDate};
 use std::path::PathBuf;
 
 pub fn readexcel(filename: &PathBuf) -> Result<Vec<Vec<String>>, Box<dyn std::error::Error>> {
-    // let filename = ".\\AOTB01-01_加工品（テーピング).xlsx";
+    // let filename = ".\\hogehoge-01_加工品（).xlsx";
     // let mut excel = open_workbook_auto(filename).unwrap();
     //  一つのファイルのsheet1 を読み取り値を取得する
     let excel: Xlsx<_> = open_workbook(filename)?;
@@ -18,7 +18,7 @@ pub fn readexcel(filename: &PathBuf) -> Result<Vec<Vec<String>>, Box<dyn std::er
             rng.rows().for_each(|row| {
                 let mut exlinedata: Vec<_> = row.iter().filter_map(parse_celldata).collect();
                 // 出力例
-                // 90:購入:AOB202-90-102:セットカラー:PSCS20-10:ミスミ:1:手配済:ミスミ:760:760:
+                // 90:購入:hogehoge-90-102:品名:PSCS20-10:メーカー:1:手配済:発注先:760:760:
                 // 読み取ったデータ配列長さが5よりも大きく,材質および型式の欄が空でない場合
                 if exlinedata.len() > 5 && !exlinedata[4].is_empty() {
                     match exlinedata[1].trim() {
@@ -67,7 +67,7 @@ fn from_days_since_1900(days_since_1900: i64) -> NaiveDate {
 #[test]
 fn readtest() -> Result<(), Box<dyn std::error::Error>> {
     use std::str::FromStr;
-    let testpath = PathBuf::from_str(".\\ASD403-05_購入品（ワーク加工部）.xlsx").unwrap();
+    let testpath = PathBuf::from_str(".\\hoge-05_購入品（加工部）.xlsx").unwrap();
     match readexcel(&testpath) {
         Ok(st) => {
             println!("{:?}", st);
